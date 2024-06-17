@@ -1,0 +1,17 @@
+{
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "resources" : [
+    {
+      "filename" : "diagramstrap.arreferenceimage"
+    },
+    {
+      "filename" : "Piston-Elevator-Man-to-Man-Play.arreferenceimage"
+    },
+    {
+      "filename" : "Screenshot-2016-11-22-14.arreferenceimage"
+    }
+  ]
+}
