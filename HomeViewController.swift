@@ -14,9 +14,10 @@ class HomeViewController: UIViewController {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
         gradientLayer.colors = [
-            UIColor.systemRed.cgColor,
             UIColor.systemGray.cgColor,
-            UIColor.systemPurple.cgColor
+            UIColor.systemBlue.cgColor,
+            
+            
         ]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
@@ -26,7 +27,7 @@ class HomeViewController: UIViewController {
     private func setupUI() {
         // Title label
         let titleLabel = UILabel()
-        titleLabel.text = "Welcome Cavaliers!"
+        titleLabel.text = "Welcome Tar Heels!"
         titleLabel.font = UIFont.systemFont(ofSize: 33, weight: .bold)
         titleLabel.textColor = .white
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

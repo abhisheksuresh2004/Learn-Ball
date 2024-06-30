@@ -22,17 +22,19 @@ class MPViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, 
    
     
     let imageNames = [
-        "Midterm 2 Statistics.png",
+        "diagrammidscreen.png",
         "Motion-Strong-3.png",
+        "diagramsdown.png",
+        "diagramsswitch.png",
+        "zone23shiftb.png",
+        "zone23shiftf.png"
        
-        // Add more image names here
     ]
     
     
-    // Initialize an array to hold UIImage objects
+    // need to change this implementation
     var pictures: [UIImage] = []
     
-
     
     
     
@@ -43,32 +45,32 @@ class MPViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, 
         
         // Ensure outlets are not nil
         guard let sceneView = sceneView else {
-            print("sceneView outlet is not connected")
+            print("sceneView not connected")
             return
         }
         guard let chatTableView = chatTableView else {
-            print("chatTableView outlet is not connected")
+            print("chatTableView not connected")
             return
         }
         guard let messageTextField = messageTextField else {
-            print("messageTextField outlet is not connected")
+            print("messageTextField not connected")
             return
         }
         guard let sendButton = sendButton else {
-            print("sendButton outlet is not connected")
+            print("sendButton not connected")
             return
         }
         
-        // Register the cell class
+        // cant have chat table without cell
         chatTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MessageCell")
         
-        // Set up ARSCNView
+        //use code from before
         sceneView.delegate = self
         sceneView.session.delegate = self
-        sceneView.showsStatistics = true
+        //sceneView.showsStatistics = true
         sceneView.autoenablesDefaultLighting = true
         
-        // Configure ARKit session
+     //arkit session
         let configuration = ARWorldTrackingConfiguration()
         configuration.isCollaborationEnabled = true
         sceneView.session.run(configuration)
@@ -77,7 +79,6 @@ class MPViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, 
         setUpMultipeerConnectivity()
         loadImages()
         
-        // Add gesture recognizers
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         sceneView.addGestureRecognizer(tapGestureRecognizer)
         
@@ -89,7 +90,9 @@ class MPViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, 
         swipeRightGestureRecognizer.direction = .right
         sceneView.addGestureRecognizer(swipeRightGestureRecognizer)
         
-        // Set up chat UI
+        
+        print("checking for access")
+        
         chatTableView.delegate = self
         chatTableView.dataSource = self
         messageTextField.delegate = self
@@ -127,7 +130,6 @@ class MPViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, 
         
     
     
-    // MARK: - ARSessionDelegate
     
     func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
         for anchor in anchors {
@@ -149,7 +151,22 @@ class MPViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, 
         }
     }
     
-    // MARK: - MCSessionDelegate
+//    func setUpMultipeerConnectivity() {
+//        peerID = MCPeerID(displayName: UIDevice.current.name)
+//        guard let peerID = peerID else { return }
+//        
+//        multipeerSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
+//        guard let multipeerSession = multipeerSession else { return }
+//        
+//        multipeerSession.delegate = self
+//        
+//        browser = MCBrowserViewController(serviceType: "ar-collab", session: multipeerSession)
+//        browser?.delegate = self
+//        
+//        assistant = MCAdvertiserAssistant(serviceType: "ar-collab", discoveryInfo: nil, session: multipeerSession)
+//        assistant?.start()
+//    }
+    
     
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
@@ -178,7 +195,6 @@ class MPViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, 
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) { }
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) { }
     
-    // MARK: - MCBrowserViewControllerDelegate
     
     func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
         browserViewController.dismiss(animated: true, completion: nil)
@@ -188,7 +204,6 @@ class MPViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, 
         browserViewController.dismiss(animated: true, completion: nil)
     }
     
-    // MARK: - Multipeer Connectivity Setup
     
     func setUpMultipeerConnectivity() {
         peerID = MCPeerID(displayName: UIDevice.current.name)
@@ -206,12 +221,13 @@ class MPViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, 
         assistant?.start()
     }
     
-    // MARK: - Interaction Handlers
     
+    //use for the handle
     @objc func handleTap(_ gestureRecognizer: UITapGestureRecognizer) {
         guard let sceneView = sceneView else { return }
         
         let location = gestureRecognizer.location(in: sceneView)
+        //this ray cast allows for mapping in the plane
         if let query = sceneView.raycastQuery(from: location, allowing: .estimatedPlane, alignment: .any) {
             let results = sceneView.session.raycast(query)
             if let result = results.first {
