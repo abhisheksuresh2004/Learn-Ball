@@ -99,6 +99,7 @@ class CourtViewController: UIViewController, ARSCNViewDelegate {
 
         let translation = gesture.translation(in: gesture.view)
         let rotation = Float(translation.x) * (Float.pi / 180.0)
+        let x = 1
 
         modelNode.eulerAngles.y = rotation
         gesture.setTranslation(.zero, in: gesture.view)
